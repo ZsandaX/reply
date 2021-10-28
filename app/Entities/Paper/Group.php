@@ -8,11 +8,23 @@ class Group extends Model
 {
     //
     protected $attributes = [
-        'description' => '',
+        'description' => ' ',
     ];
 
-    public function attachmentsOfQuestion()
+    protected $hidden = ['pivot'];
+
+    public function questions()
     {
-        return $this->belongsToMany('App\Entities\Paper\Question');
+        return $this->morphToMany('App\Entities\Paper\Question', 'model', 'model_has_questions');
+    }
+
+    public function parent()
+    {
+        return $this->morphedByMany('App\Entities\Paper\Group', 'model', 'model_has_groups');
+    }
+
+    public function children()
+    {
+        return $this->morphToMany('App\Entities\Paper\Group', 'model', 'model_has_groups');
     }
 }

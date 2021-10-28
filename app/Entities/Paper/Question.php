@@ -8,14 +8,15 @@ class Question extends Model
 {
     //
     protected $attributes = [
-        'description' => '',
+        'description' => "",
     ];
-    public function attachmentsOfOption()
+
+    public function options()
     {
-        return $this->belongsToMany('App\Entities\Paper\Option');
+        return $this->morphToMany('App\Entities\Paper\Option', 'model', 'model_has_options');
     }
-    public function attachmentsOfGroup()
+    public function groups()
     {
-        return $this->belongsToMany('App\Entities\Paper\Group');
+        return $this->morphedByMany('App\Entities\Paper\Group', 'model', 'model_has_questions');
     }
 }

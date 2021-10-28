@@ -8,9 +8,15 @@ class Menu extends Model
 {
     //
     protected $attributes = [
+        "icon" => "el-icon-star-off",
         'menu_id' => null,
         'disabled' => false,
     ];
+
+    protected $casts = [
+        'disabled' => 'boolean',
+    ];
+
     public function children()
     {
         return $this->hasMany('App\Entities\System\Menu');

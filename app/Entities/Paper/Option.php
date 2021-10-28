@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Option extends Model
 {
     //
-    public function attachmentsOfQuestion()
+    public function questions()
     {
-        return $this->belongsToMany('App\Entities\Paper\Question');
+        return $this->morphedByMany('App\Entities\Paper\Question', 'model', 'model_has_options');
     }
 }
