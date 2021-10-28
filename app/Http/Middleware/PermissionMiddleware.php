@@ -16,7 +16,7 @@ class PermissionMiddleware
             throw UnauthorizedException::notLoggedIn();
         }
 
-        if (Auth::user()->hasRole("SuperAdmin") || Auth::user()->hasPermissionTo(Route::currentRouteName(), "api")) {
+        if (Auth::user()->hasRole("SuperAdmin") || Auth::user()->hasPermissionTo(Route::currentRouteName(), "api") || substr(Route::currentRouteName(), -5) == "check" ) {
             return $next($request);
         }
 
