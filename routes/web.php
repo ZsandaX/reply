@@ -15,5 +15,5 @@ Route::view('/', 'welcome');
 
 Auth::routes();
 
-Route::middleware("auth")->get('/{route}', 'HomeController@index')->where('route', '.*')->name("home");
+Route::middleware("auth:web")->get('/{route}', 'HomeController@index')->where('route', '.*')->name("home");
 

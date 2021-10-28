@@ -19,9 +19,7 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->group(function () {
     foreach(Menu::whereNotNull("controller")->get() as $menu){
-        //$roles = $menu->roles->pluck("name")->join("|");
         Route::post($menu->path."/check", $menu->controller."@check")->name("$menu->path.check");
         Route::resource($menu->path, $menu->controller);
     }
-    Route::get("permission/massCreate", "System\MassPermissionController@massCreate")->name("permission.massCreate");
 });
