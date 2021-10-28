@@ -29,9 +29,10 @@ class HomeController extends Controller
 
     public function index(Request $request, Menu $menu)
     {
-        Log::info('message');
+        //Log::info('message');
+        $permissions = $request->user()->getAllPermissions()->pluck("name");
         $routes = $this->service->menu($request);
 
-        return view("home", compact("routes"));
+        return view("home", compact("permissions", "routes"));
     }
 }

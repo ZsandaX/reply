@@ -43,7 +43,15 @@ class RoleController extends ResourceController
         return [
             "name" => ["component" => "el-input", "required" => true],
             "guard_name" => ["component" => "el-input", "required" => false],
-            "permissions" => ["component" => "Table", "required" => false,]
+            "permissions" => ["component" => "Table", "required" => false]
         ];
     }
+
+    public function filters()
+    {
+        return [
+            'guard_name' => [["text" => "web", "value" => "web"], ["text" => "api", "value" => "api"]],
+        ];
+    }
+
 }

@@ -44,7 +44,7 @@ class MenuController extends ResourceController
         $rules = [
             "path" => ["required", "string", "regex:/^\w{1,}(\/\w{1,})*$/", "unique:menus,path,$id"],
             "label" => ["required", "string"],
-            "icon" => ["required", "string", "starts_with:el-icon-"],
+            "icon" => ["nullable", "string"],
             "component" => ["nullable", "string"],
             "controller" => ["nullable", "string"],
             "order" => ["nullable", "integer"],
@@ -72,7 +72,7 @@ class MenuController extends ResourceController
         return [
             "path" => ["component" => "el-input", "required" => true],
             "label" => ["component" => "el-input", "required" => true],
-            "icon" => ["component" => "el-input", "required" => true],
+            "icon" => ["component" => "el-input", "required" => false],
             "component" => ["component" => "el-input", "required" => false],
             "controller" => ["component" => "el-input", "required" => false],
             "disabled" => ["component" => "el-switch", "required" => false],

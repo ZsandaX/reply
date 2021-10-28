@@ -3,24 +3,22 @@
 namespace App\Http\Controllers\Paper;
 
 use App\Http\Controllers\ResourceController;
-use App\Repositorys\Paper\GroupRepository;
+use App\Repositorys\Paper\PaperRepository;
 
-class GroupController extends ResourceController
+class PaperController extends ResourceController
 {
-    public function __construct(GroupRepository $GroupRepository)
+    public function __construct(PaperRepository $PaperRepository)
     {
-        $this->repository = $GroupRepository;
+        $this->repository = $PaperRepository;
     }
 
     public function rules()
     {
-        $id = request("id");
         $rules = [
             'name' => ['required', 'string', 'max:255'],
-            'value' => [ 'required', 'integer', 'max:255'],
-            'description' => [ 'nullable', 'string', 'max:255'],
-            'children' => [ 'nullable', 'array'],
-            'questions' => [ 'nullable', 'array']
+            'value' => ['required', 'integer', 'max:255'],
+            'description' => ['nullable', 'string', 'max:255'],
+            'groups' => ['nullable', 'array'],
         ];
 
         return $rules;
@@ -34,8 +32,7 @@ class GroupController extends ResourceController
             "name" => "名稱",
             "value" => "值",
             "description" => "描述",
-            "children" => "題組",
-            "questions" => "題目",
+            "groups" => "題組",
         ];
     }
 
@@ -47,8 +44,7 @@ class GroupController extends ResourceController
             "name" => ["component" => "el-input", "required" => true],
             "value" => ["component" => "el-input", "required" => true],
             "description" => ["component" => "el-input", "required" => false],
-            "children" => ["name"=> "groups","component" => "Table", "required" => false],
-            "questions" => ["component" => "Table", "required" => false],
+            "groups" => ["component" => "Table", "required" => false],
         ];
     }
 }

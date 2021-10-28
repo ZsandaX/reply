@@ -11,10 +11,6 @@ class ResourceController extends Controller
 {
     protected $repository;
 
-    public function __construct($a)
-    {
-
-    }
     public function index(Request $request)
     {
         //
@@ -23,6 +19,8 @@ class ResourceController extends Controller
         $response["columns"] = Arr::where($this->attributes(), function ($attr, $prop) {
             return in_array($prop, $this->repository->getFields());
         });
+        $response["filters"] = $this->filters();
+        $response["sorts"] = $this->sorts();
 
         return $response;
     }
@@ -133,6 +131,15 @@ class ResourceController extends Controller
     {
         return [];
     }
+
+    public function filters(){
+        return [];
+    }
+
+    public function sorts(){
+        return [];
+    }
+
     public function factory($data){
         return $data;
     }
