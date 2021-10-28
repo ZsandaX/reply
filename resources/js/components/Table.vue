@@ -1,6 +1,6 @@
 <template>
     <div v-loading="loading">
-        <el-button type="primary" icon="el-icon-circle-plus" @click="create">
+        <el-button v-if="$route.meta.create && $route.path == `/${name}`" type="primary" icon="el-icon-circle-plus" @click="create">
             新增
         </el-button>
         <slot name="control"> </slot>
@@ -10,16 +10,37 @@
             @select="select"
             @select-all="select"
             style="width: 100%"
+            @filter-change="filterChange"
+            @sort-change="sortChange"
+            row-key="id"
+            default-expand-all
+            :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
         >
-            <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="id" label="序號"></el-table-column>
+            <el-table-column prop="selection" type="selection" width="55"></el-table-column>
+            <el-table-column prop="id" label="序號" sortable="custom">
+                <template v-slot="{row}"><span v-selected="row">{{row.id}}</span></template>
+            </el-table-column>
             <el-table-column
                 :prop="prop"
                 :label="column"
                 v-for="(column, prop) of pagenate.columns"
+                :filters="pagenate.filters[prop]"
                 :key="prop"
+                :column-key="prop"
+                :sortable="pagenate.sorts[prop]"
             ></el-table-column>
-            <el-table-column label="操作">
+            <slot name="appendColumn"> </slot>
+            <el-table-column label="操作" v-if="$route.path == `/${name}`">
+                <template v-slot:header>
+                    <div class="d-flex">
+                        <el-input
+                            v-model="keyword"
+                            size="mini"
+                            placeholder="輸入關鍵字搜尋"
+                        />
+                        <el-button size="mini" @click="index">搜尋</el-button>
+                    </div>
+                </template>
                 <template v-slot="{ row }">
                     <el-dropdown trigger="click" @command="command">
                         <span class="el-dropdown-link">
@@ -27,12 +48,14 @@
                         </span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item
+                                v-if="$route.meta.edit"
                                 icon="el-icon-edit-outline"
                                 :command="{ args: row, callback: edit }"
                             >
                                 編輯
                             </el-dropdown-item>
                             <el-dropdown-item
+                                v-if="$route.meta.destroy"
                                 icon="el-icon-delete"
                                 :command="{
                                     args: row,
@@ -77,11 +100,17 @@
 <script>
 export default {
     props: {
-        name: String,
+        name: {
+           type: String,
+           default: function(){
+               return this.$route.path.substr(1)
+           },
+        },
         value: Array,
     },
     created() {
         this.index();
+        console.log(this.$route);
     },
     data() {
         return {
@@ -90,6 +119,9 @@ export default {
             dialogVisible: false,
             dialogTitle: "",
             loading: false,
+            keyword: "",
+            filters: [],
+            sorts: []
         };
     },
     computed: {
@@ -104,26 +136,15 @@ export default {
                 mode: "table",
                 page: this.pagenate.current_page || 1,
                 per_page: this.pagenate.per_page || 10,
+                keyword: this.keyword,
+                filters: this.filters,
+                sorts: this.sorts
             };
             axios
                 .get(`${this.name}`, { params })
                 .then((response) => {
                     this.loading = false;
                     this.pagenate = response.data;
-                })
-                .then(() => {
-                    for (let index in this.pagenate.data) {
-                        if (
-                            this.selection.includes(
-                                this.pagenate.data[index].id
-                            )
-                        ) {
-                            this.$refs.multipleTable.toggleRowSelection(
-                                this.pagenate.data[index],
-                                true
-                            );
-                        }
-                    }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -162,6 +183,29 @@ export default {
         select(selection, row) {
             this.$emit("update:value", selection);
         },
+        filterChange(filters){
+            this.filters = filters;
+            this.index();
+        },
+        sortChange(sorts){
+            if(sorts.order){
+                this.sorts = [sorts.prop, sorts.order.replace("ending", "")];
+            }else{
+                this.sorts = null;
+            }
+            this.index();
+        },
     },
+    directives: {
+        selected:{
+            bind(el, binding, vnode) {
+                if (vnode.context.selection.includes(binding.value.id))
+                {
+                    vnode.context.$refs.multipleTable.toggleRowSelection(binding.value, true);
+                }
+
+            }
+        }
+    }
 };
 </script>

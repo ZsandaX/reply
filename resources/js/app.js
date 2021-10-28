@@ -6,11 +6,12 @@
 
 require('./bootstrap');
 import ElementUI from 'element-ui';
-import locale from 'element-ui/lib/locale';
+import locale from 'element-ui/lib/locale/lang/zh-TW';
+import { SurveyElementVue } from 'survey-vue';
 import { router } from './route';
 
 window.Vue = require('vue');
-Vue.use(ElementUI, { locale, publicPath: '/reply' });
+Vue.use(ElementUI, { locale, publicPath: '/' });
 
 /**
  * The following block of code may be used to automatically register your
@@ -33,21 +34,22 @@ const app = new Vue({
     router,
     el: '#app',
     data: {
+        permissions: [],
         isCollapse: false
-    }
+    },
 });
 // Add a response interceptor
 window.axios.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    if(response.data.success == false){
+    if (response.data.success == false) {
         throw response.data.errors;
     }
     return response;
 }, function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    switch(error.response.status){
+    switch (error.response.status) {
         case 401:
             app.$message.error("請重新登入");
             window.location.reload();

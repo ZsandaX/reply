@@ -1,0 +1,147 @@
+{
+    "locale": "zh-tw",
+    "pages": [
+     {
+      "name": "page1",
+      "elements": [
+       {
+        "type": "matrixdropdown",
+        "name": "question1",
+        "title": "主任(必填)",
+        "columns": [
+         {
+          "name": "name",
+          "title": "姓名",
+          "cellType": "text",
+          "isRequired": true
+         },
+         {
+          "name": "race",
+          "title": "族別",
+          "cellType": "dropdown",
+          "isRequired": true,
+          "choices": [
+           "非原住民",
+           "阿美族",
+           "泰雅族",
+           "排灣族",
+           "布農族",
+           "魯凱族",
+           "卑南族",
+           "鄒族",
+           "賽夏族",
+           "雅美族",
+           "邵族",
+           "噶瑪蘭族",
+           "太魯閣族",
+           "撒奇萊雅族",
+           "賽德克族",
+           "拉阿魯哇族",
+           "卡那卡那富族"
+          ]
+         }
+        ],
+        "rows": [
+         "教務主任",
+         "學務主任",
+         "總務主任",
+         "輔導主任"
+        ]
+       },
+       {
+        "type": "matrixdynamic",
+        "name": "question2",
+        "title": "其他主任",
+        "defaultValue": [
+         {
+          "id": 1,
+          "position": "人事主任"
+         },
+         {
+          "id": 2,
+          "position": "會計主任"
+         },
+         {
+          "id": 3,
+          "position": "實習主任"
+         }
+        ],
+        "correctAnswer": [
+         {
+          "id": 1,
+          "position": "人事主任"
+         },
+         {
+          "id": 2,
+          "position": "會計主任"
+         },
+         {
+          "id": 3,
+          "position": "實習主任"
+         }
+        ],
+        "columns": [
+         {
+          "name": "id",
+          "title": "#",
+          "cellType": "expression",
+          "expression": "{rowIndex}"
+         },
+         {
+          "name": "position",
+          "title": "職稱",
+          "cellType": "text",
+          "isRequired": true,
+          "requiredIf": "notempty",
+          "validators": [
+           {
+            "type": "expression",
+            "text": "重複",
+            "expression": "unique()"
+           }
+          ],
+          "totalDisplayStyle": "decimal"
+         },
+         {
+          "name": "name",
+          "title": "姓名",
+          "cellType": "text",
+          "isRequired": true
+         },
+         {
+          "name": "race",
+          "title": "族別",
+          "cellType": "dropdown",
+          "isRequired": true,
+          "choices": [
+           "非原住民",
+           "阿美族",
+           "泰雅族",
+           "排灣族",
+           "布農族",
+           "魯凱族",
+           "卑南族",
+           "鄒族",
+           "賽夏族",
+           "雅美族",
+           "邵族",
+           "噶瑪蘭族",
+           "太魯閣族",
+           "撒奇萊雅族",
+           "賽德克族",
+           "拉阿魯哇族",
+           "卡那卡那富族"
+          ]
+         }
+        ],
+        "rowCount": 3
+       },
+       {
+        "type": "expression",
+        "name": "question3",
+        "title": "Capital of is:"
+       }
+      ]
+     }
+    ]
+   }

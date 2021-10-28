@@ -12,11 +12,12 @@ const components = files.keys().reduce((acc, key) => {
     return acc;
 }, {});
 
-const router = new VueRouter({ mode: "history", base: "/reply" });
+const router = new VueRouter({ mode: "history" });
+let routes = [];
 Vue.directive('route', {
     bind: function (el, binding, vnode) {
-        let route = {path: "/" + binding.value.path, component: components[binding.value.component]}
-        router.addRoutes([route]);
+        routes.push({ path: "/" + binding.value.path, component: components[binding.value.component], meta: binding.value.meta });
+        router.addRoutes(routes);
     }
 });
 

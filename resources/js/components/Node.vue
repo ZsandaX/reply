@@ -20,12 +20,14 @@
                     </span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item
+                            v-if="$route.meta.edit"
                             icon="el-icon-edit-outline"
                             :command="{ args: item, callback: edit }"
                         >
                             編輯
                         </el-dropdown-item>
                         <el-dropdown-item
+                            v-if="$route.meta.destroy"
                             icon="el-icon-delete"
                             :command="{ args: item, callback: destroy }"
                             >刪除</el-dropdown-item
@@ -91,7 +93,7 @@ export default {
 </script>
 <style scoped>
 .dragArea {
-    margin: 8px;
+    margin: 12px;
     min-height: 30px;
     border: 1px dashed;
     border-radius: 5px;

@@ -18,14 +18,16 @@
                     <el-input v-model="resource">
                         <template v-slot:prepend>資源</template>
                         <template v-slot:append>
-                            <el-button type="primary" @click="prepend"> 確認 </el-button>
+                            <el-button type="primary" @click="prepend">
+                                確認
+                            </el-button>
                         </template>
                     </el-input>
                 </el-form-item>
             </el-form>
             <Form
                 :model="item"
-                v-for="(item, index) of forms"
+                v-for="item of forms"
                 :key="item.name"
                 name="permissions"
                 :inline="true"
@@ -62,9 +64,12 @@ export default {
                 })),
             ];
         },
-        reset(){
+        reset() {
             this.resource = "";
             this.forms = [];
+        },
+        filterTag(){
+
         }
     },
 };

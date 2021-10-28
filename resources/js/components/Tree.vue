@@ -1,19 +1,24 @@
 <template>
     <div v-loading="loading">
-        <el-button type="primary" icon="el-icon-circle-plus" @click="create">
+        <el-button
+            v-if="$route.meta.create && $route.path == `/${name}`"
+            type="primary"
+            icon="el-icon-circle-plus"
+            @click="create"
+        >
             新增
         </el-button>
-        <slot name="control">
-
-        </slot>
-        <Node
-            :parent-id="null"
-            :level="1"
-            :data="data"
-            @edit="edit"
-            @update="update"
-            @destroy="destroy"
-        />
+        <slot name="control"> </slot>
+        <div class="el-table">
+            <Node
+                :parent-id="null"
+                :level="1"
+                :data="data"
+                @edit="edit"
+                @update="update"
+                @destroy="destroy"
+            />
+        </div>
         <slot name="dialog">
             <el-dialog
                 v-if="dialogVisible"
@@ -56,13 +61,6 @@ export default {
                 .catch((error) => {
                     this.$message.error("更新失敗");
                 });
-        },
-        submit(item) {
-            if (item.hasOwnProperty("id")) {
-                this.update(item);
-            } else {
-                this.store(item);
-            }
         },
         index() {
             this.loading = true;

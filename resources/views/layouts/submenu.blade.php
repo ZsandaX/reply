@@ -1,5 +1,5 @@
 @canany($route->children->pluck("path"))
-<el-submenu index="{{ $route->path }}" v-route='@json($route)' :disabled="!!{{$route->disabled}}">
+<el-submenu index="{{ $route->path }}" v-route='@json($route)' :disabled="@json($route->disabled)">
     <template slot="title">
         <i class="{{ $route->icon }}"></i>
         <span slot="title">{{ $route->label }}</span>

@@ -12,10 +12,12 @@
                 :is="field.component"
                 v-model="item[prop]"
                 :value.sync="item[prop]"
-                :name="prop"
+                :name="field.name || prop"
                 v-bind="field"
-                @input="validate"
-            ></component>
+                @blur="validate"
+            >
+                {{ field.text }}
+            </component>
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="submitForm">送出</el-button>
@@ -63,15 +65,13 @@ export default {
             this.loading = true;
 
             create(this.name)
-            .then((response) => {
-                this.fields = response.data;
-            })
-            .then(() => {
-                this.loading = false;
-            })
-            .catch((error) => {
-
-            });
+                .then((response) => {
+                    this.fields = response.data;
+                })
+                .then(() => {
+                    this.loading = false;
+                })
+                .catch((error) => {});
         },
         edit() {
             this.loading = true;
@@ -82,9 +82,7 @@ export default {
                 .then(() => {
                     this.loading = false;
                 })
-                .catch((error) => {
-
-                });
+                .catch((error) => {});
         },
         store() {
             store(this.name, this.item)
