@@ -9,11 +9,16 @@ class OptionRepository extends ResourceRepository
 {
     protected $fields = [
         "id",
-        "label",
+        "name",
         "value",
         "created_at",
         "updated_at",
     ];
+
+    protected $relationships = [
+        "questions",
+    ];
+
     public function __construct(Option $option)
     {
         parent::__construct($option);

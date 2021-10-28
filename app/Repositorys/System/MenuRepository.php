@@ -22,7 +22,7 @@ class MenuRepository extends ResourceRepository
     ];
 
     protected $relationships = [
-
+        "children"
     ];
 
     public function __construct(Menu $menu)
@@ -33,42 +33,36 @@ class MenuRepository extends ResourceRepository
     public function index(Request $request)
     {
         //
-        switch($request->mode){
+        $load = ["children" => function ($query) {
+            $query->orderBy("order");
+        }];
+
+        switch ($request->mode) {
             case "table":
-                $items = parent::index($request);
-            break;
+                $items = $this->model->select($this->fields)->whereNull("menu_id")->orderBy("order")->paginate();
+                foreach($items->items() as $item){
+                    $this->loadChildren($item, $load);
+                }
+                break;
 
             default:
             case "tree";
                 $items = $this->model->select($this->fields)->whereNull("menu_id")->orderBy("order")->get();
-                $this->loadChildren($items);
-            break;
+                foreach($items as $item){
+                    $this->loadChildren($item, $load);
+                }
+                break;
         }
 
         return $items;
     }
 
-    public function loadChildren($items){
-        foreach($items as $item){
-            $item->load(["children"=> function($query){
-                $query->orderBy("order");
-            }]);
-            $this->loadChildren($item->children);
-        }
-    }
-
-    public function store($data){
-        if(!isset($data['order'])){
+    public function store($data)
+    {
+        if (!isset($data['order'])) {
             $data['order'] = $this->model->count();
         }
         $model = parent::store($data);
-
-        return $model;
-    }
-
-    public function destroy($id){
-        $model = parent::destroy($id);
-        Permission::where("name", $model->path)->delete();
 
         return $model;
     }

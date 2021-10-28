@@ -30,4 +30,8 @@ class PermissionRepository extends ResourceRepository
             $permission->save();
         }
     }
+
+    public function getResource(){
+        return Permission::all()->unique('resource')->pluck('resource');
+    }
 }

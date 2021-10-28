@@ -8,11 +8,18 @@ class QuestionRepository extends ResourceRepository
 {
     protected $fields = [
         "id",
-        "label",
+        "name",
         "value",
+        "description",
         "created_at",
         "updated_at",
     ];
+
+    protected $relationships = [
+        "groups",
+        "options"
+    ];
+
     public function __construct(Question $question)
     {
         parent::__construct($question);
