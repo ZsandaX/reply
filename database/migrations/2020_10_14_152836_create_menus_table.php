@@ -17,7 +17,7 @@ class CreateMenusTable extends Migration
             $table->bigIncrements('id');
             $table->string("path");
             $table->string("label");
-            $table->string("icon");
+            $table->string("icon")->nullable()->default("");
             $table->string("component")->nullable();
             $table->string("controller")->nullable();
             $table->integer("order");
