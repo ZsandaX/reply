@@ -14,7 +14,7 @@ class Paper extends Model
 
     public function __construct()
     {
-        $this->attributes['created_by'] = Auth::guard("api")->user()->id;
+        //$this->attributes['created_by'] = Auth::guard("api")->user()->id;
     }
 
     public function groups()

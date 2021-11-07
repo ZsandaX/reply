@@ -18,7 +18,7 @@
                                 v-for="option of question.options"
                                 :key="option.id"
                             >
-                                {{ option.name }}
+                                <el-radio :label="option.id">{{ option.name }}</el-radio>
                             </li>
                         </ol>
                     </div>

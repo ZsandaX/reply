@@ -118,37 +118,15 @@ abstract class ResourceRepository
         return $model;
     }
 
-    public function loadChildren($model, $load, $sum=null)
+    public function loadChildren($model, $load)
     {
-        if(is_null($sum)){
-            $sum=collect();
-        }
-        $is_contains = $sum->contains(function($item) use ($model){
-            return $item->is($model);
-        });
-        if($is_contains){
-            return $sum;
-        }
-        $sum->push($model);
         foreach ($load as $key => $value) {
-            if (gettype($value) == "string") {
-                if (in_array($value, get_class_methods($model))) {
-                    $model->load([$value]);
-                    foreach($model->{$value} as $item){
-                        $this->loadChildren($item, $load, $sum);
-                    }
-                }
-            } else {
-                if (in_array($key, get_class_methods($model))) {
-                    $model->load([$key => $value]);
-                    foreach($model->{$key} as $item){
-                        $this->loadChildren($item, $load, $sum);
-                    }
+            if (in_array($key, get_class_methods($model)) && get_class($model->{$key}()) == 'Illuminate\Database\Eloquent\Relations\MorphToMany' && !$model->{$key}()->getInverse()) {
+                foreach ($model->{$key} as $item) {
+                    $this->loadChildren($item, $load);
                 }
             }
         }
-
-        return $sum;
+        return ;
     }
-
 }

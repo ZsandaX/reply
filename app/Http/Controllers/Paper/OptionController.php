@@ -18,7 +18,6 @@ class OptionController extends ResourceController
         $rules = [
             'name' => ['required', 'string', 'max:255'],
             'value' => [ 'required', 'integer', 'max:255'],
-            'questions' => [ 'nullable', 'array'],
         ];
 
         return $rules;
@@ -31,7 +30,6 @@ class OptionController extends ResourceController
         return [
             "name" => "名稱",
             "value" => "值",
-            "questions" => "題目"
         ];
     }
 
@@ -42,7 +40,6 @@ class OptionController extends ResourceController
         return [
             "name" => ["component" => "el-input", "required" => true],
             "value" => ["component" => "el-input", "required" => true],
-            "questions" => ["component" => "Table", "required" => false],
         ];
     }
 }

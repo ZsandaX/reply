@@ -19,7 +19,6 @@ class QuestionController extends ResourceController
             'name' => ['required', 'string', 'max:255'],
             'value' => [ 'required', 'integer', 'max:255'],
             'description' => [ 'nullable', 'string', 'max:255'],
-            'groups' => [ 'nullable', 'array'],
             'options' => [ 'nullable', 'array']
         ];
 
@@ -34,7 +33,6 @@ class QuestionController extends ResourceController
             "name" => "名稱",
             "value" => "值",
             "description" => "描述",
-            "groups" => "題組",
             "options" => "題項"
         ];
     }
@@ -47,7 +45,6 @@ class QuestionController extends ResourceController
             "name" => ["component" => "el-input", "required" => true],
             "value" => ["component" => "el-input", "required" => true],
             "description" => ["component" => "el-input", "required" => false],
-            "groups" => ["component" => "Table", "required" => false],
             "options" => ["component" => "Table", "required" => false],
         ];
     }

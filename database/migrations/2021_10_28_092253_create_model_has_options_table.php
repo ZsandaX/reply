@@ -17,6 +17,7 @@ class CreateModelHasOptionsTable extends Migration
             $table->unsignedBigInteger('option_id');
             $table->string('model_type');
             $table->unsignedBigInteger('model_id');
+            $table->integer('order')->default(0);
             $table->index(['model_id', 'model_type'], 'model_has_option_model_id_model_type_index');
 
             $table->foreign('option_id')
