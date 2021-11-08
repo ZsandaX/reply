@@ -5,6 +5,7 @@ use App\Entities\System\Menu;
 use App\Repositorys\Paper\GroupRepository;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +19,12 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth:api')->group(function () {
-    foreach(Menu::whereNotNull("controller")->get() as $menu){
-        Route::post($menu->path."/check", $menu->controller."@check")->name("$menu->path.check");
-        Route::resource($menu->path, $menu->controller);
+    try{
+        foreach(Menu::whereNotNull("controller")->get() as $menu){
+            Route::post($menu->path."/check", $menu->controller."@check")->name("$menu->path.check");
+            Route::resource($menu->path, $menu->controller);
+        }
+    }catch(PDOException $exception){
+
     }
 });
