@@ -22,7 +22,7 @@ class FirstUser extends Seeder
         ]);
         DB::table('roles')->insert([
             'name' => 'SuperAdmin',
-            'guard' => 'web',
+            'guard_name' => 'web',
         ]);
         DB::table('model_has_roles')->insert([
             'role_id' => 1,
